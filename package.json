@@ -1,0 +1,23 @@
+{
+  "name": "nodejs-demo-app",
+  "version": "1.0.0",
+  "description": "A simple Node.js demo application with Docker and CI/CD",
+  "main": "index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "keywords": [
+    "nodejs",
+    "docker",
+    "ci-cd",
+    "demo"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
