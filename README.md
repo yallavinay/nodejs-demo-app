@@ -1,157 +1,156 @@
 # Node.js Demo App
 
-A simple Node.js application demonstrating Docker containerization and CI/CD with GitHub Actions.
+This is a simple Node.js application that shows how to use containerization and CI/CD automation.
 
-## 🚀 Features
+## Overview
 
-- Simple HTTP server returning "Hello from nodejs-demo-app"
+The app sets up a basic HTTP server that responds with "Hello from nodejs-demo-app". It includes:
+
 - Docker containerization with multi-stage builds
-- Automated testing and deployment with GitHub Actions
-- DockerHub integration for image publishing
+- Automated testing and deployment using GitHub Actions
+- Integration with DockerHub for building and publishing images
 
-## 📋 Prerequisites
+## Features
 
-- Node.js 18 or higher
-- Docker (for containerization)
-- Git (for version control)
+- Lightweight Node.js server
+- CI/CD workflow for testing, building, and pushing Docker images
+- Health checks and smoke tests included
 
-## 🏃‍♂️ Local Development
+## Getting Started
 
-### 1. Clone the repository
+### Prerequisites
+
+- Node.js version 18 or higher
+- Docker installed
+- Git installed
+
+### Local Setup
+
+Clone the repository:
+
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/yallavinay/nodejs-demo-app.git
 cd nodejs-demo-app
 ```
 
-### 2. Install dependencies
+Install dependencies:
+
 ```bash
 npm install
 ```
 
-### 3. Start the application
+Start the application:
+
 ```bash
 npm start
 ```
 
-The server will start on `http://localhost:3000`
+Visit http://localhost:3000 to see the app running.
 
-### 4. Run tests
+Run the tests:
+
 ```bash
 npm test
 ```
 
-## 🐳 Docker
+## Docker Usage
 
-### Build the Docker image
+Build the Docker image:
+
 ```bash
-docker build -t demo .
+docker build -t nodejs-demo-app .
 ```
 
-### Run the container
+Run the container:
+
 ```bash
-docker run -p 3000:3000 demo
+docker run -p 3000:3000 nodejs-demo-app
 ```
 
-The application will be available at `http://localhost:3000`
+Run in detached mode:
 
-### Run in detached mode
 ```bash
-docker run -d -p 3000:3000 --name nodejs-demo demo
+docker run -d -p 3000:3000 --name nodejs-demo nodejs-demo-app
 ```
 
-### Stop the container
+Stop and remove the container:
+
 ```bash
 docker stop nodejs-demo
 docker rm nodejs-demo
 ```
 
-## 🔄 CI/CD Pipeline
+## CI/CD Pipeline
 
-This project includes a GitHub Actions workflow that:
+The GitHub Actions workflow automates testing, building, and publishing:
 
-1. **Tests**: Runs on every push and pull request
-   - Installs dependencies with `npm ci`
-   - Starts the application in background
-   - Tests the application health with curl
-   - Runs the test suite
-   - Stops the application
+**Test workflow** (runs on all pushes and pull requests):
+- Installs dependencies
+- Starts the app in the background
+- Runs health checks and tests
+- Stops the app
 
-2. **Build & Deploy**: Runs on pushes to `main` branch
-   - Builds Docker image using Docker Buildx
-   - Pushes to DockerHub with latest and commit SHA tags
-   - Uses GitHub Actions cache for faster builds
+**Build and deploy workflow** (runs on pushes to the main branch):
+- Builds Docker image using Buildx
+- Pushes images to DockerHub with latest and commit SHA tags
+- Uses caching for faster builds
 
-### Setting up DockerHub Secrets
+## DockerHub Integration
 
-To enable automatic Docker image publishing, add these secrets to your GitHub repository:
+To enable automated Docker image publishing, create DockerHub secrets in your GitHub repository:
 
-1. Go to your repository on GitHub
-2. Navigate to **Settings** → **Secrets and variables** → **Actions**
-3. Click **New repository secret**
-4. Add the following secrets:
+1. Go to your repository → **Settings** → **Secrets** → **Actions**
 
-   - **Name**: `DOCKERHUB_USERNAME`
-     **Value**: Your DockerHub username
-
-   - **Name**: `DOCKERHUB_TOKEN`
-     **Value**: Your DockerHub access token
+2. Add the following secrets:
+   - `DOCKERHUB_USERNAME` → Your DockerHub username
+   - `DOCKERHUB_TOKEN` → DockerHub access token
 
 ### Creating a DockerHub Access Token
 
-1. Go to [DockerHub](https://hub.docker.com/)
-2. Sign in to your account
-3. Go to **Account Settings** → **Security**
-4. Click **New Access Token**
-5. Give it a name (e.g., "GitHub Actions")
-6. Copy the generated token and use it as `DOCKERHUB_TOKEN`
+1. Sign in to [DockerHub](https://hub.docker.com/)
+2. Navigate to **Account Settings** → **Security** → **New Access Token**
+3. Give it a descriptive name (e.g., "GitHub Actions")
+4. Grant permissions: read, write, delete
+5. Copy the token and use it as `DOCKERHUB_TOKEN` in GitHub
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-nodejs-demo-app/
-├── .github/
-│   └── workflows/
-│       └── main.yml          # GitHub Actions CI/CD pipeline
-├── package.json              # Node.js dependencies and scripts
-├── index.js                  # Main application file
-├── test.js                   # Basic smoke test
-├── Dockerfile                # Docker container configuration
-└── README.md                 # This file
+nodejs-demo-app
+├── .github/workflows/main.yml   - CI/CD pipeline
+├── package.json                 - Node.js dependencies and scripts
+├── index.js                     - Main server file
+├── test.js                      - Basic smoke test
+├── Dockerfile                   - Docker configuration
+└── README.md                    - Documentation
 ```
 
-## 🧪 Testing
+## Testing
 
-The project includes a basic smoke test that:
-- Sends a GET request to `http://localhost:3000`
-- Verifies the response status is 200
+- Sends a GET request to http://localhost:3000
+- Checks that the response status is 200
 - Exits with code 0 on success, 1 on failure
 
-## 🔧 Configuration
+## Configuration
 
-### Environment Variables
+- `PORT` environment variable (default 3000)
 
-- `PORT`: Server port (default: 3000)
-
-### Docker Configuration
+## Docker Configuration
 
 - Base image: `node:18-alpine`
-- Port: 3000
-- Non-root user for security
+- Exposes port 3000
+- Runs as a non-root user
 - Health check included
 
-## 📝 Scripts
+## Scripts
 
-- `npm start`: Start the application
-- `npm test`: Run the smoke test
+- `npm start` → Start the server
+- `npm test` → Run smoke test
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Run tests locally
+4. Test locally
 5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License.
